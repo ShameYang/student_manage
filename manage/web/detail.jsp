@@ -11,6 +11,8 @@
     <title>学生详细信息</title>
   </head>
   <body>
+    <h1>学生详细信息</h1>
+    <hr>
     <%
       Student student = (Student) request.getAttribute("student");
     %>
