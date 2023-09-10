@@ -21,7 +21,7 @@ import java.util.List;
  * @date 2023/9/10 16:36
  * @description 学生列表
  */
-@WebServlet({"/student/list"})
+@WebServlet({"/student/list", "/student/detail"})
 public class StudentServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response)
@@ -29,6 +29,7 @@ public class StudentServlet extends HttpServlet {
         String servletPath = request.getServletPath();
         switch (servletPath) {
             case "/student/list" -> doList(request, response);
+            case "/student/detail" -> doDetail(request, response);
         }
     }
 
@@ -74,5 +75,46 @@ public class StudentServlet extends HttpServlet {
         request.setAttribute("stuList", stus);
         // 转发到 JSP 页面
         request.getRequestDispatcher("/list.jsp").forward(request, response);
+    }
+
+    /**
+     * 详情功能
+     * @param request 请求
+     * @param response 响应
+     * @throws ServletException 异常
+     * @throws IOException 异常
+     */
+    private void doDetail(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String sno = request.getParameter("sno");
+        Student student = new Student();
+        student.setSno(sno);
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtil.getConnection();
+            String sql = "select sno, sname, ssex, telephone from t_student where sno=?";
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, sno);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                String sname = rs.getString("sname");
+                String ssex = rs.getString("ssex");
+                String telephone = rs.getString("telephone");
+
+                student.setSname(sname);
+                student.setSsex(ssex);
+                student.setTelephone(telephone);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBUtil.close(conn, ps, rs);
+        }
+
+        request.setAttribute("student", student);
+
+        request.getRequestDispatcher("/detail.jsp").forward(request, response);
     }
 }
