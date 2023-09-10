@@ -49,6 +49,6 @@
         }
     %>
 </table>
-<a href="">新增学生</a>
+<a href="<%=request.getContextPath()%>/add.jsp">新增学生</a>
 </body>
 </html>

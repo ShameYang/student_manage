@@ -21,7 +21,7 @@ import java.util.List;
  * @date 2023/9/10 16:36
  * @description 学生列表
  */
-@WebServlet({"/student/list", "/student/detail", "/student/delete"})
+@WebServlet({"/student/list", "/student/detail", "/student/delete", "/student/add"})
 public class StudentServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response)
@@ -31,6 +31,7 @@ public class StudentServlet extends HttpServlet {
             case "/student/list" -> doList(request, response);
             case "/student/detail" -> doDetail(request, response);
             case "/student/delete" -> doDel(request, response);
+            case "/student/add" -> doAdd(request, response);
         }
     }
 
@@ -146,6 +147,44 @@ public class StudentServlet extends HttpServlet {
         }
 
         // 删除成功，重定向至学生列表页面
+        if (count == 1) {
+            response.sendRedirect(request.getContextPath() + "/student/list");
+        }
+    }
+
+    /**
+     * 新增学生
+     * @param request 请求
+     * @param response 响应
+     * @throws ServletException 异常
+     * @throws IOException 异常
+     */
+    private void doAdd(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String sno = request.getParameter("sno");
+        String sname = request.getParameter("sname");
+        String ssex = request.getParameter("ssex");
+        String telephone = request.getParameter("telephone");
+        Connection conn = null;
+        PreparedStatement ps = null;
+        int count = 0;
+
+        try {
+            conn = DBUtil.getConnection();
+            String sql = "insert into t_student(sno, sname, ssex, telephone) " +
+                    "VALUES (?, ?, ?, ?)";
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, sno);
+            ps.setString(2, sname);
+            ps.setString(3, ssex);
+            ps.setString(4, telephone);
+            count = ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBUtil.close(conn, ps, null);
+        }
+
         if (count == 1) {
             response.sendRedirect(request.getContextPath() + "/student/list");
         }
