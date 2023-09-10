@@ -11,6 +11,8 @@
     <title>新增学生</title>
 </head>
 <body>
+    <h1>新增学生</h1>
+    <hr>
     <form action="<%=request.getContextPath()%>/student/add" method="post">
         学号：<input type="text" name="sno"><br>
         姓名：<input type="text" name="sname"><br>
