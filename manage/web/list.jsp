@@ -40,8 +40,8 @@
         <td><%=student.getSno()%></td>
         <td><%=student.getSname()%></td>
         <td>
-            <a href="<%=request.getContextPath()%>/student/detail?sno=<%=student.getSno()%>">详情</a>
-            <a href="">修改</a>
+            <a href="<%=request.getContextPath()%>/student/detail?f=detail&sno=<%=student.getSno()%>">详情</a>
+            <a href="<%=request.getContextPath()%>/student/detail?f=edit&sno=<%=student.getSno()%>">修改</a>
             <a href="javascript:void(0)" onclick="del(<%=student.getSno()%>)">删除</a>
         </td>
     </tr>

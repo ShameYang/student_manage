@@ -21,7 +21,8 @@ import java.util.List;
  * @date 2023/9/10 16:36
  * @description 学生列表
  */
-@WebServlet({"/student/list", "/student/detail", "/student/delete", "/student/add"})
+@WebServlet({"/student/list", "/student/detail", "/student/delete",
+        "/student/add", "/student/modify"})
 public class StudentServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response)
@@ -32,6 +33,7 @@ public class StudentServlet extends HttpServlet {
             case "/student/detail" -> doDetail(request, response);
             case "/student/delete" -> doDel(request, response);
             case "/student/add" -> doAdd(request, response);
+            case "/student/modify" -> doModify(request, response);
         }
     }
 
@@ -117,7 +119,8 @@ public class StudentServlet extends HttpServlet {
 
         request.setAttribute("student", student);
 
-        request.getRequestDispatcher("/detail.jsp").forward(request, response);
+        // 这样写可以转发给修改功能使用
+        request.getRequestDispatcher("/" + request.getParameter("f") + ".jsp").forward(request, response);
     }
 
     /**
@@ -178,6 +181,41 @@ public class StudentServlet extends HttpServlet {
             ps.setString(2, sname);
             ps.setString(3, ssex);
             ps.setString(4, telephone);
+            count = ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBUtil.close(conn, ps, null);
+        }
+
+        if (count == 1) {
+            response.sendRedirect(request.getContextPath() + "/student/list");
+        }
+    }
+
+    /**
+     * 修改学生信息
+     * @param request 请求
+     * @param response 响应
+     * @throws ServletException 异常
+     * @throws IOException 异常
+     */
+    private void doModify(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String sno = request.getParameter("sno");
+        String sname = request.getParameter("sname");
+        String telephone = request.getParameter("telephone");
+
+        Connection conn = null;
+        PreparedStatement ps = null;
+        int count = 0;
+        try {
+            conn = DBUtil.getConnection();
+            String sql = "update t_student set sname=?, telephone=? where sno=?";
+            ps = conn.prepareStatement(sql);
+            ps.setString(1,sname);
+            ps.setString(2,telephone);
+            ps.setString(3, sno);
             count = ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
