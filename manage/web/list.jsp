@@ -12,6 +12,13 @@
     <title>学生列表页面</title>
 </head>
 <body>
+<script>
+    function del(sno) {
+        if (window.confirm("确定删除该同学的信息吗？？？")) {
+            document.location.href = "<%=request.getContextPath()%>/student/delete?sno=" + sno;
+        }
+    }
+</script>
 <h1>学生列表</h1>
 <hr>
 <table>
@@ -35,7 +42,7 @@
         <td>
             <a href="<%=request.getContextPath()%>/student/detail?sno=<%=student.getSno()%>">详情</a>
             <a href="">修改</a>
-            <a href="">删除</a>
+            <a href="javascript:void(0)" onclick="del(<%=student.getSno()%>)">删除</a>
         </td>
     </tr>
     <%

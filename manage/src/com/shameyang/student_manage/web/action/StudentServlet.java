@@ -21,7 +21,7 @@ import java.util.List;
  * @date 2023/9/10 16:36
  * @description 学生列表
  */
-@WebServlet({"/student/list", "/student/detail"})
+@WebServlet({"/student/list", "/student/detail", "/student/delete"})
 public class StudentServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response)
@@ -30,6 +30,7 @@ public class StudentServlet extends HttpServlet {
         switch (servletPath) {
             case "/student/list" -> doList(request, response);
             case "/student/detail" -> doDetail(request, response);
+            case "/student/delete" -> doDel(request, response);
         }
     }
 
@@ -116,5 +117,37 @@ public class StudentServlet extends HttpServlet {
         request.setAttribute("student", student);
 
         request.getRequestDispatcher("/detail.jsp").forward(request, response);
+    }
+
+    /**
+     * 删除功能
+     * @param request 请求
+     * @param response 响应
+     * @throws ServletException 异常
+     * @throws IOException 异常
+     */
+    private void doDel(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String sno = request.getParameter("sno");
+        Connection conn = null;
+        PreparedStatement ps = null;
+        // 记录是否执行
+        int count = 0;
+        try {
+            conn = DBUtil.getConnection();
+            String sql = "delete from t_student where sno=?";
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, sno);
+            count = ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBUtil.close(conn, ps, null);
+        }
+
+        // 删除成功，重定向至学生列表页面
+        if (count == 1) {
+            response.sendRedirect(request.getContextPath() + "/student/list");
+        }
     }
 }
