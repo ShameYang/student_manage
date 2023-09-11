@@ -32,7 +32,18 @@ public class UserServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         if (session != null) {
+            // 手动销毁 session
             session.invalidate();
+            // 清除 cookie
+            Cookie[] cookies = request.getCookies();
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    cookie.setMaxAge(0);
+                    // 这里的关联路径要与之前的一致
+                    cookie.setPath(request.getContextPath());
+                    response.addCookie(cookie);
+                }
+            }
             response.sendRedirect(request.getContextPath());
         }
     }
