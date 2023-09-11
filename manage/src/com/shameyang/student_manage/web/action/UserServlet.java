@@ -3,10 +3,7 @@ package com.shameyang.student_manage.web.action;
 import com.shameyang.student_manage.utils.DBUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.*;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -70,6 +67,21 @@ public class UserServlet extends HttpServlet {
             // session
             HttpSession session = request.getSession();
             session.setAttribute("username", username);
+            // cookie
+            String f = request.getParameter("f");
+            if ("1".equals(f)) {
+                Cookie cookie1 = new Cookie("username", username);
+                Cookie cookie2 = new Cookie("password", password);
+                // 设置关联路径
+                cookie1.setPath(request.getContextPath());
+                cookie2.setPath(request.getContextPath());
+                // 设置有效期十天
+                cookie1.setMaxAge(60 * 60 * 24 * 10);
+                cookie2.setMaxAge(60 * 60 * 24 * 10);
+                // 发送到服务器
+                response.addCookie(cookie1);
+                response.addCookie(cookie2);
+            }
             response.sendRedirect(request.getContextPath() + "/student/list");
         } else {
             response.sendRedirect(request.getContextPath() + "/login_error.jsp");
