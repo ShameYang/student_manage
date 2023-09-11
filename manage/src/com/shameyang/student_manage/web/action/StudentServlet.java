@@ -7,6 +7,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -27,13 +28,18 @@ public class StudentServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String servletPath = request.getServletPath();
-        switch (servletPath) {
-            case "/student/list" -> doList(request, response);
-            case "/student/detail" -> doDetail(request, response);
-            case "/student/delete" -> doDel(request, response);
-            case "/student/add" -> doAdd(request, response);
-            case "/student/modify" -> doModify(request, response);
+        HttpSession session = request.getSession();
+        if (session != null & session.getAttribute("username") != null) {
+            String servletPath = request.getServletPath();
+            switch (servletPath) {
+                case "/student/list" -> doList(request, response);
+                case "/student/detail" -> doDetail(request, response);
+                case "/student/delete" -> doDel(request, response);
+                case "/student/add" -> doAdd(request, response);
+                case "/student/modify" -> doModify(request, response);
+            }
+        } else {
+            response.sendRedirect(request.getContextPath() + "/index.jsp");
         }
     }
 
@@ -213,8 +219,8 @@ public class StudentServlet extends HttpServlet {
             conn = DBUtil.getConnection();
             String sql = "update t_student set sname=?, telephone=? where sno=?";
             ps = conn.prepareStatement(sql);
-            ps.setString(1,sname);
-            ps.setString(2,telephone);
+            ps.setString(1, sname);
+            ps.setString(2, telephone);
             ps.setString(3, sno);
             count = ps.executeUpdate();
         } catch (SQLException e) {

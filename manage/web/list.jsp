@@ -50,5 +50,7 @@
     %>
 </table>
 <a href="<%=request.getContextPath()%>/add.jsp">新增学生</a>
+<br>
+<a href="<%=request.getContextPath()%>/user/exit">退出系统</a>
 </body>
 </html>
