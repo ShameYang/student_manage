@@ -1,5 +1,4 @@
-<%@ page import="java.util.List" %>
-<%@ page import="com.shameyang.student_manage.bean.Student" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: shameyang
   Date: 2023/9/10
@@ -7,6 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <html>
 <head>
     <title>学生列表页面</title>
@@ -15,7 +16,7 @@
 <script>
     function del(sno) {
         if (window.confirm("确定删除该同学的信息吗？？？")) {
-            document.location.href = "<%=request.getContextPath()%>/student/delete?sno=" + sno;
+            document.location.href = "${pageContext.request.contextPath}/student/delete?sno=" + sno;
         }
     }
 </script>
@@ -28,29 +29,21 @@
         <td>姓名</td>
         <td>操作</td>
     </tr>
-    <%
-        // 从域中取出集合
-        List<Student> stuList = (List<Student>) request.getAttribute("stuList");
-        int i = 0;
-        // 遍历集合
-        for (Student student : stuList) {
-    %>
-    <tr>
-        <td><%=++i%></td>
-        <td><%=student.getSno()%></td>
-        <td><%=student.getSname()%></td>
-        <td>
-            <a href="<%=request.getContextPath()%>/student/detail?f=detail&sno=<%=student.getSno()%>">详情</a>
-            <a href="<%=request.getContextPath()%>/student/detail?f=edit&sno=<%=student.getSno()%>">修改</a>
-            <a href="javascript:void(0)" onclick="del(<%=student.getSno()%>)">删除</a>
-        </td>
-    </tr>
-    <%
-        }
-    %>
+    <c:forEach items="${stuList}" varStatus="stuStatus" var="student">
+        <tr>
+            <td>${stuStatus.count}</td>
+            <td>${student.sno}</td>
+            <td>${student.sname}</td>
+            <td>
+                <a href="${pageContext.request.contextPath}/student/detail?f=detail&sno=${student.sno}">详情</a>
+                <a href="${pageContext.request.contextPath}/student/detail?f=edit&sno=${student.sno}">修改</a>
+                <a href="javascript:void(0)" onclick="del(${student.sno})">删除</a>
+            </td>
+        </tr>
+    </c:forEach>
 </table>
-<a href="<%=request.getContextPath()%>/add.jsp">新增学生</a>
+<a href="${pageContext.request.contextPath}/add.jsp">新增学生</a>
 <br>
-<a href="<%=request.getContextPath()%>/user/exit">退出系统</a>
+<a href="${pageContext.request.contextPath}/user/exit">退出系统</a>
 </body>
 </html>

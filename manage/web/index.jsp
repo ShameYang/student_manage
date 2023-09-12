@@ -13,7 +13,7 @@
   <body>
     <h1>您好，请登录</h1>
     <hr>
-    <form action="<%=request.getContextPath()%>/user/login" method="post">
+    <form action="${pageContext.request.contextPath}/user/login" method="post">
       用户名：<input type="text" name="username"><br>
       密码：<input type="password" name="password"><br>
       <input type="submit" value="登录">
