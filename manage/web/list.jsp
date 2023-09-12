@@ -11,6 +11,7 @@
 <html>
 <head>
     <title>学生列表页面</title>
+    <base href="${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/">
 </head>
 <body>
 <script>
@@ -35,15 +36,15 @@
             <td>${student.sno}</td>
             <td>${student.sname}</td>
             <td>
-                <a href="${pageContext.request.contextPath}/student/detail?f=detail&sno=${student.sno}">详情</a>
-                <a href="${pageContext.request.contextPath}/student/detail?f=edit&sno=${student.sno}">修改</a>
+                <a href="student/detail?f=detail&sno=${student.sno}">详情</a>
+                <a href="student/detail?f=edit&sno=${student.sno}">修改</a>
                 <a href="javascript:void(0)" onclick="del(${student.sno})">删除</a>
             </td>
         </tr>
     </c:forEach>
 </table>
-<a href="${pageContext.request.contextPath}/add.jsp">新增学生</a>
+<a href="add.jsp">新增学生</a>
 <br>
-<a href="${pageContext.request.contextPath}/user/exit">退出系统</a>
+<a href="user/exit">退出系统</a>
 </body>
 </html>

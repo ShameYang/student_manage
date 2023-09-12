@@ -9,11 +9,12 @@
 <html>
 <head>
     <title>修改学生信息</title>
+    <base href="${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/">
 </head>
 <body>
     <h1>修改学生信息</h1>
     <hr>
-    <form action="${pageContext.request.contextPath}/student/modify" method="post">
+    <form action="student/modify" method="post">
         学号：<input type="text" name="sno" value="${student.sno}" readonly><br>
         姓名：<input type="text" name="sname" value="${student.sname}"><br>
         性别：${student.ssex}<br>
