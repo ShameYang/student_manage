@@ -6,4 +6,13 @@
     <welcome-file-list>
         <welcome-file>welcome</welcome-file>
     </welcome-file-list>
+
+    <filter>
+        <filter-name>loginFilter</filter-name>
+        <filter-class>com.shameyang.student_manage.web.filter.LoginCheckFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>loginFilter</filter-name>
+        <url-pattern>/student/*</url-pattern>
+    </filter-mapping>
 </web-app>

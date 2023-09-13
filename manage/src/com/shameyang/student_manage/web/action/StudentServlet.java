@@ -28,8 +28,6 @@ public class StudentServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
-        if (session != null & session.getAttribute("username") != null) {
             String servletPath = request.getServletPath();
             switch (servletPath) {
                 case "/student/list" -> doList(request, response);
@@ -38,9 +36,6 @@ public class StudentServlet extends HttpServlet {
                 case "/student/add" -> doAdd(request, response);
                 case "/student/modify" -> doModify(request, response);
             }
-        } else {
-            response.sendRedirect(request.getContextPath() + "/index.jsp");
-        }
     }
 
     /**
