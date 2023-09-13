@@ -28,7 +28,7 @@ public class StudentServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
         if (session != null & session.getAttribute("username") != null) {
             String servletPath = request.getServletPath();
             switch (servletPath) {
