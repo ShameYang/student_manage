@@ -9,7 +9,7 @@
 
     <filter>
         <filter-name>loginFilter</filter-name>
-        <filter-class>com.shameyang.student_manage.web.filter.LoginCheckFilter</filter-class>
+        <filter-class>com.shameyang.student_manage.filter.LoginCheckFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>loginFilter</filter-name>
