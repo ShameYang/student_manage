@@ -1,4 +1,4 @@
-package com.shameyang.student_manage.web.filter;
+package com.shameyang.student_manage.filter;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
