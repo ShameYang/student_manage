@@ -2,7 +2,6 @@ package com.shameyang.student_manage.dao.impl;
 
 import com.shameyang.student_manage.bean.Student;
 import com.shameyang.student_manage.dao.StudentDao;
-import com.shameyang.student_manage.exceptions.SaveException;
 import com.shameyang.student_manage.utils.DBUtil;
 
 import java.sql.Connection;

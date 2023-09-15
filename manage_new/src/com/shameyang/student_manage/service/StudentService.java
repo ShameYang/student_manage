@@ -1,6 +1,5 @@
 package com.shameyang.student_manage.service;
 
-import com.shameyang.student_manage.exceptions.SaveException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

@@ -3,7 +3,6 @@ package com.shameyang.student_manage.service.impl;
 import com.shameyang.student_manage.bean.Student;
 import com.shameyang.student_manage.dao.StudentDao;
 import com.shameyang.student_manage.dao.impl.StudentDaoImpl;
-import com.shameyang.student_manage.exceptions.SaveException;
 import com.shameyang.student_manage.service.StudentService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
